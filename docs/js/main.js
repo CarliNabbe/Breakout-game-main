@@ -16,6 +16,9 @@ class Ball extends HTMLElement {
         window.addEventListener("keydown", (e) => this.onKeyDown(e));
         window.addEventListener("keyup", (e) => this.onKeyUp(e));
     }
+    setSpeed(speed) {
+        this.speed = speed;
+    }
     bounceBack() {
         this.dy = -this.dy;
     }
@@ -109,7 +112,12 @@ class YellowBrickBehavior {
         brick.delayHit();
         this.hits++;
         if (this.hits === 2) {
-            const powerUp = Math.random() < 0.5 ? new RedPowerUp() : new BluePowerUp();
+            const powerUpChance = Math.random();
+            const powerUp = powerUpChance < 0.33
+                ? new RedPowerUp()
+                : powerUpChance < 0.66
+                    ? new BluePowerUp()
+                    : new YellowPowerUp();
             const brickRect = brick.getBoundingClientRect();
             powerUp.style.left = brickRect.left + "px";
             powerUp.style.top = brickRect.top + "px";
@@ -189,7 +197,6 @@ class Game {
         this.paddle.update();
         this.ball.update(this.paddle, this.bricks);
         this.powerUps.forEach((powerUp) => {
-            console.log("Powerup update??");
             powerUp.update();
         });
         requestAnimationFrame(() => this.gameLoop());
@@ -211,6 +218,9 @@ class Paddle extends HTMLElement {
         this.y = window.innerHeight * 0.95;
         window.addEventListener("keydown", (e) => this.onKeyDown(e));
         window.addEventListener("keyup", (e) => this.onKeyUp(e));
+    }
+    setSpeed(speed) {
+        this.speed = speed;
     }
     onKeyDown(e) {
         if (e.key == "ArrowLeft")
@@ -264,6 +274,9 @@ class RedPowerUp extends HTMLElement {
         }
     }
     applyEffect() {
+        const paddle = document.getElementsByTagName("paddle-component")[0];
+        paddle.setSpeed(0);
+        this.remove();
     }
 }
 window.customElements.define("hold-upgrade", RedPowerUp);
@@ -292,7 +305,41 @@ class BluePowerUp extends HTMLElement {
         }
     }
     applyEffect() {
+        const paddle = document.getElementsByTagName("paddle-component")[0];
+        paddle.setSpeed(14);
+        this.remove();
     }
 }
 window.customElements.define("faster-upgrade", BluePowerUp);
+class YellowPowerUp extends HTMLElement {
+    constructor() {
+        super();
+        this.speed = 2;
+        console.log("YellowPowerUp created!");
+        let game = document.getElementsByTagName("game")[0];
+        game.appendChild(this);
+    }
+    update() {
+        this.style.top = parseInt(this.style.top) + this.speed + "px";
+        const paddle = document.getElementsByTagName("paddle-component")[0];
+        const powerUpRect = this.getBoundingClientRect();
+        const paddleRect = paddle.getBoundingClientRect();
+        if (powerUpRect.bottom >= paddleRect.top &&
+            powerUpRect.top <= paddleRect.bottom &&
+            powerUpRect.right >= paddleRect.left &&
+            powerUpRect.left <= paddleRect.right) {
+            this.applyEffect();
+            this.remove();
+        }
+        if (parseInt(this.style.top) >= window.innerHeight) {
+            this.remove();
+        }
+    }
+    applyEffect() {
+        const ball = document.getElementsByTagName("ball-component")[0];
+        ball.setSpeed(12);
+        this.remove();
+    }
+}
+window.customElements.define("double-upgrade", YellowPowerUp);
 //# sourceMappingURL=main.js.map

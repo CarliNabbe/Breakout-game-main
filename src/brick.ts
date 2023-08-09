@@ -30,7 +30,12 @@ interface BrickBehavior {
 
       if (this.hits === 2) {
         // Randomly choose between RedPowerUp and BluePowerUp
-        const powerUp = Math.random() < 0.5 ? new RedPowerUp() : new BluePowerUp();
+        const powerUpChance = Math.random();
+        const powerUp = powerUpChance < 0.33
+        ? new RedPowerUp()
+        : powerUpChance < 0.66
+        ? new BluePowerUp()
+        : new YellowPowerUp();
         
         // Get the position of the brick
         const brickRect = brick.getBoundingClientRect();

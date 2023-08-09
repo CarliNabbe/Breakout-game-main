@@ -48,7 +48,6 @@ class Game {
       this.ball.update(this.paddle, this.bricks);
 
       this.powerUps.forEach((powerUp) => {
-        console.log("Powerup update??")
         powerUp.update();
       });
       

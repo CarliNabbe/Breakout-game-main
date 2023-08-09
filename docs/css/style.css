@@ -75,6 +75,11 @@ faster-upgrade {
     background-image: url(../images/upgrades/polygon_blue.png);
 }
 
+double-upgrade {
+    width:48px; height:46px;
+    background-image: url(../images/upgrades/polygon_yellow.png);
+}
+
 score {
     position: relative;
     display: block;

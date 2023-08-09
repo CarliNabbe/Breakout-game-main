@@ -28,6 +28,11 @@ class Paddle extends HTMLElement {
         window.addEventListener("keyup", (e: KeyboardEvent) => this.onKeyUp(e))
     }
 
+    // Add a method to set the speed of the paddle
+    setSpeed(speed: number): void {
+        this.speed = speed;
+    }
+
     private onKeyDown(e: KeyboardEvent): void {
         if(e.key == "ArrowLeft")        this.moveLeft   = true
         else if (e.key == "ArrowRight") this.moveRight  = true

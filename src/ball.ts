@@ -25,6 +25,11 @@ class Ball extends HTMLElement {
         window.addEventListener("keyup", (e: KeyboardEvent) => this.onKeyUp(e))
     }
 
+    // Add a method to set the speed of the paddle
+    setSpeed(speed: number): void {
+        this.speed = speed;
+    }
+
     public bounceBack(): void {
         this.dy = -this.dy; // Invert the dy to bounce back vertically
     }
