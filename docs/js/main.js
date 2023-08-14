@@ -11,9 +11,8 @@ class Ball extends HTMLElement {
         console.log("Ball created!");
         let game = document.getElementsByTagName("game")[0];
         game.appendChild(this);
-        this.x = window.innerWidth / 2 - this.clientWidth / 2;
+        this.x = window.innerWidth / 2 - this.clientWidth / 2 + 20;
         this.y = window.innerHeight * 0.92;
-        window.addEventListener("keydown", (e) => this.onKeyDown(e));
         window.addEventListener("keyup", (e) => this.onKeyUp(e));
     }
     setSpeed(speed) {
@@ -22,15 +21,7 @@ class Ball extends HTMLElement {
     bounceBack() {
         this.dy = -this.dy;
     }
-    onKeyDown(e) {
-        if (e.key == "ArrowLeft")
-            this.dx = -this.speed;
-        else if (e.key == "ArrowRight")
-            this.dx = this.speed;
-    }
     onKeyUp(e) {
-        if (e.key == "ArrowLeft" || e.key == "ArrowRight")
-            this.dx = 0;
         if (e.key == "ArrowUp" && !this.moveOnKeyUp) {
             this.moveOnKeyUp = true;
             this.dy = -this.speed;
@@ -43,7 +34,18 @@ class Ball extends HTMLElement {
             ballRect.top <= paddleRect.bottom &&
             ballRect.right >= paddleRect.left &&
             ballRect.left <= paddleRect.right) {
-            this.dy = -Math.abs(this.dy);
+            const paddleCenter = paddleRect.left + paddleRect.width / 2;
+            const relativePosition = (ballRect.left + ballRect.width / 2) - paddleCenter;
+            const maxReflectionAngle = Math.PI / 3;
+            const reflectionAngle = (relativePosition / (paddleRect.width / 2)) * maxReflectionAngle;
+            const speedMagnitude = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+            const newDx = -speedMagnitude * Math.sin(reflectionAngle);
+            const newDy = -speedMagnitude * Math.cos(reflectionAngle);
+            this.dx = newDx * (this.speed / speedMagnitude);
+            this.dy = newDy * (this.speed / speedMagnitude);
+            if (this.dy > 0) {
+                this.dy = -this.dy;
+            }
         }
     }
     checkBrickCollision(bricks) {
@@ -76,11 +78,12 @@ class Ball extends HTMLElement {
             this.dy = -this.dy;
         }
         if (this.y + this.clientHeight >= window.innerHeight) {
-            this.x = window.innerWidth / 2 - this.clientWidth / 2;
+            this.x = window.innerWidth / 2 - this.clientWidth / 2 + 20;
             this.y = window.innerHeight * 0.92;
             this.dx = 0;
             this.dy = 0;
             this.moveOnKeyUp = false;
+            paddle.x = window.innerWidth / 2 - this.clientWidth / 2;
         }
         this.draw();
     }
@@ -214,7 +217,7 @@ class Paddle extends HTMLElement {
         console.log("Paddle created!");
         let game = document.getElementsByTagName("game")[0];
         game.appendChild(this);
-        this.x = window.innerWidth / 2 - this.clientWidth / 2;
+        this.x = window.innerWidth / 2 - this.clientWidth / 2 + 20;
         this.y = window.innerHeight * 0.95;
         window.addEventListener("keydown", (e) => this.onKeyDown(e));
         window.addEventListener("keyup", (e) => this.onKeyUp(e));
@@ -274,8 +277,12 @@ class RedPowerUp extends HTMLElement {
         }
     }
     applyEffect() {
+        console.log("Stop moving!");
         const paddle = document.getElementsByTagName("paddle-component")[0];
         paddle.setSpeed(0);
+        setTimeout(() => {
+            paddle.setSpeed(7);
+        }, 2000);
         this.remove();
     }
 }
@@ -305,8 +312,12 @@ class BluePowerUp extends HTMLElement {
         }
     }
     applyEffect() {
+        console.log("Faster Paddle!");
         const paddle = document.getElementsByTagName("paddle-component")[0];
         paddle.setSpeed(14);
+        setTimeout(() => {
+            paddle.setSpeed(7);
+        }, 2000);
         this.remove();
     }
 }
@@ -336,8 +347,12 @@ class YellowPowerUp extends HTMLElement {
         }
     }
     applyEffect() {
+        console.log("Ball goes fast!");
         const ball = document.getElementsByTagName("ball-component")[0];
-        ball.setSpeed(12);
+        ball.setSpeed(8);
+        setTimeout(() => {
+            ball.setSpeed(3);
+        }, 2000);
         this.remove();
     }
 }

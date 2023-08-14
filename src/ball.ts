@@ -17,11 +17,11 @@ class Ball extends HTMLElement {
         game.appendChild(this)
 
         // center of the screen
-        this.x      = window.innerWidth / 2 - this.clientWidth / 2
+        this.x      = window.innerWidth / 2 - this.clientWidth / 2 + 20
         // 5% from bottom of the screen
         this.y      = window.innerHeight * 0.92
         
-        window.addEventListener("keydown", (e: KeyboardEvent) => this.onKeyDown(e))
+        // window.addEventListener("keydown", (e: KeyboardEvent) => this.onKeyDown(e))
         window.addEventListener("keyup", (e: KeyboardEvent) => this.onKeyUp(e))
     }
 
@@ -34,13 +34,13 @@ class Ball extends HTMLElement {
         this.dy = -this.dy; // Invert the dy to bounce back vertically
     }
 
-    private onKeyDown(e: KeyboardEvent): void {
-        if(e.key == "ArrowLeft")        this.dx = -this.speed;  // Move left
-        else if (e.key == "ArrowRight") this.dx = this.speed;   // Move right
-    }
+    // private onKeyDown(e: KeyboardEvent): void {
+    //     if(e.key == "ArrowLeft")        this.dx = -this.speed;  // Move left
+    //     else if (e.key == "ArrowRight") this.dx = this.speed;   // Move right
+    // }
 
     private onKeyUp(e: KeyboardEvent): void {
-        if(e.key == "ArrowLeft" || e.key == "ArrowRight") this.dx = 0;  // Stop horizontal movement
+        // if(e.key == "ArrowLeft" || e.key == "ArrowRight") this.dx = 0;  // Stop horizontal movement
 
         if (e.key == "ArrowUp" && !this.moveOnKeyUp) {
             // Start moving the ball only when the up arrow key is pressed
@@ -52,7 +52,7 @@ class Ball extends HTMLElement {
     private checkPaddleCollision(paddle: Paddle): void {
         const ballRect = this.getBoundingClientRect();
         const paddleRect = paddle.getBoundingClientRect();
-
+    
         if (
             ballRect.bottom >= paddleRect.top &&
             ballRect.top <= paddleRect.bottom &&
@@ -60,7 +60,30 @@ class Ball extends HTMLElement {
             ballRect.left <= paddleRect.right
         ) {
             // Ball collided with the paddle
-            this.dy = -Math.abs(this.dy); // Invert the vertical velocity to make the ball move upward
+    
+            // Calculate the center of the paddle
+            const paddleCenter = paddleRect.left + paddleRect.width / 2;
+    
+            // Calculate the relative position of the ball on the paddle
+            const relativePosition = (ballRect.left + ballRect.width / 2) - paddleCenter;
+    
+            // Calculate the angle of reflection based on the relative position
+            const maxReflectionAngle = Math.PI / 3; // Maximum angle in radians
+            const reflectionAngle = (relativePosition / (paddleRect.width / 2)) * maxReflectionAngle;
+    
+            // Calculate new dx and dy based on the reflection angle
+            const speedMagnitude = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+            const newDx = -speedMagnitude * Math.sin(reflectionAngle);
+            const newDy = -speedMagnitude * Math.cos(reflectionAngle);
+    
+            // Set new dx and dy while maintaining speed
+            this.dx = newDx * (this.speed / speedMagnitude);
+            this.dy = newDy * (this.speed / speedMagnitude);
+    
+            // Invert the dy to make the ball move upward
+            if (this.dy > 0) {
+                this.dy = -this.dy;
+            }
         }
     }
 
@@ -108,11 +131,12 @@ class Ball extends HTMLElement {
         }
         if (this.y + this.clientHeight >= window.innerHeight) {
             // Ball fell off the screen, reset its position and velocity
-            this.x = window.innerWidth / 2 - this.clientWidth / 2;
+            this.x = window.innerWidth / 2 - this.clientWidth / 2 + 20;
             this.y = window.innerHeight * 0.92;
             this.dx = 0;
             this.dy = 0;
             this.moveOnKeyUp = false;
+            paddle.x = window.innerWidth / 2 - this.clientWidth / 2
         }
 
         this.draw();

@@ -29,7 +29,7 @@ interface BrickBehavior {
       this.hits++
 
       if (this.hits === 2) {
-        // Randomly choose between RedPowerUp and BluePowerUp
+        // Random choose between RedPowerUp, BluePowerUp or YellowPowerUp
         const powerUpChance = Math.random();
         const powerUp = powerUpChance < 0.33
         ? new RedPowerUp()
@@ -40,10 +40,11 @@ interface BrickBehavior {
         // Get the position of the brick
         const brickRect = brick.getBoundingClientRect();
         
-        // Set the position of the power-up
+        // Set the position of the power-up same position as the brick
         powerUp.style.left = brickRect.left + "px";
         powerUp.style.top = brickRect.top + "px";
 
+        // Change brick to a normal purple brick
         brick.replace(new PurpleBrickBehavior());
         brick.disappear();
 

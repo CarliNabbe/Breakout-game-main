@@ -20,7 +20,7 @@ class Paddle extends HTMLElement {
         game.appendChild(this)
 
         // center of the screen
-        this.x      = window.innerWidth / 2 - this.clientWidth / 2
+        this.x      = window.innerWidth / 2 - this.clientWidth / 2 + 20
         // 5% from bottom of the screen
         this.y      = window.innerHeight * 0.95
         

@@ -24,16 +24,18 @@ class Game {
           // Create a new instance of either Brick or YellowBrick based on random condition
           const brick = Math.random() < 0.3 ? new Brick("yellow", this) : new Brick("purple", this);
   
-          // Calculate the position for each brick
+          // plaats het grid met blokken in het midden van het scherm
           let offsetX = (window.innerWidth - columns * brickWidth) / 2;
           let x = column * brickWidth + offsetX;
+
+          // en op de y-as 100px vanaf de top
           let y = row * brickHeight + 100;
   
-          // Set the position of the brick
+          // Voeg op deze plek een nieuw blok toe aan het spel
           brick.style.left = `${x}px`;
           brick.style.top = `${y}px`;
   
-          // Add the brick to the array for further reference
+          // Add brick to array
           this.bricks.push(brick);
         }
       }
