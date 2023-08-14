@@ -59,8 +59,6 @@ class Ball extends HTMLElement {
             ballRect.right >= paddleRect.left &&
             ballRect.left <= paddleRect.right
         ) {
-            // Ball collided with the paddle
-    
             // Calculate the center of the paddle
             const paddleCenter = paddleRect.left + paddleRect.width / 2;
     

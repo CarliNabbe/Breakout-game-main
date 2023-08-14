@@ -43,6 +43,18 @@ interface PowerUp {
     public applyEffect(): void {
       console.log("Stop moving!")
       const paddle = document.getElementsByTagName("paddle-component")[0] as Paddle;
+
+      // Display the power-up message
+    const messageElement = document.getElementById("power-up-message");
+    if (messageElement) {
+      messageElement.innerText = "Paddle stops moving!";
+      messageElement.classList.remove("hidden");
+
+      // Hide the message after 2 seconds
+      setTimeout(() => {
+        messageElement.classList.add("hidden");
+      }, 2000);
+    }
       
       // Change the speed of the paddle
       paddle.setSpeed(0);
@@ -99,6 +111,18 @@ interface PowerUp {
     public applyEffect(): void {
       console.log("Faster Paddle!")
       const paddle = document.getElementsByTagName("paddle-component")[0] as Paddle;
+
+        // Display the power-up message
+    const messageElement = document.getElementById("power-up-message");
+    if (messageElement) {
+      messageElement.innerText = "Paddle goes faster!";
+      messageElement.classList.remove("hidden");
+
+      // Hide the message after 2 seconds
+      setTimeout(() => {
+        messageElement.classList.add("hidden");
+      }, 2000);
+    }
       
       // Change the speed of the paddle
       paddle.setSpeed(14);
@@ -155,6 +179,18 @@ class YellowPowerUp extends HTMLElement implements PowerUp {
       public applyEffect(): void {
         console.log("Ball goes fast!")
         const ball = document.getElementsByTagName("ball-component")[0] as Ball;
+        
+          // Display the power-up message
+    const messageElement = document.getElementById("power-up-message");
+    if (messageElement) {
+      messageElement.innerText = "Ball goes faster!";
+      messageElement.classList.remove("hidden");
+
+      // Hide the message after 2 seconds
+      setTimeout(() => {
+        messageElement.classList.add("hidden");
+      }, 2000);
+    }
         
         // Change the speed of the ball
         ball.setSpeed(8);

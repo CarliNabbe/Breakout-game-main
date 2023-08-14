@@ -20,7 +20,7 @@ class Paddle extends HTMLElement {
         game.appendChild(this)
 
         // center of the screen
-        this.x      = window.innerWidth / 2 - this.clientWidth / 2 + 20
+        this.x      = window.innerWidth / 2 - this.clientWidth / 2 + 20 //+20 Little off center so it doesn't hit the walls of the bricks
         // 5% from bottom of the screen
         this.y      = window.innerHeight * 0.95
         
@@ -28,7 +28,6 @@ class Paddle extends HTMLElement {
         window.addEventListener("keyup", (e: KeyboardEvent) => this.onKeyUp(e))
     }
 
-    // Add a method to set the speed of the paddle
     setSpeed(speed: number): void {
         this.speed = speed;
     }
@@ -59,5 +58,4 @@ class Paddle extends HTMLElement {
     }
 }
 
-// This object is style in style.css under the paddle-component tag
 window.customElements.define("paddle-component", Paddle as any)

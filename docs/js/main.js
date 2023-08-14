@@ -279,6 +279,14 @@ class RedPowerUp extends HTMLElement {
     applyEffect() {
         console.log("Stop moving!");
         const paddle = document.getElementsByTagName("paddle-component")[0];
+        const messageElement = document.getElementById("power-up-message");
+        if (messageElement) {
+            messageElement.innerText = "Paddle stops moving!";
+            messageElement.classList.remove("hidden");
+            setTimeout(() => {
+                messageElement.classList.add("hidden");
+            }, 2000);
+        }
         paddle.setSpeed(0);
         setTimeout(() => {
             paddle.setSpeed(7);
@@ -314,6 +322,14 @@ class BluePowerUp extends HTMLElement {
     applyEffect() {
         console.log("Faster Paddle!");
         const paddle = document.getElementsByTagName("paddle-component")[0];
+        const messageElement = document.getElementById("power-up-message");
+        if (messageElement) {
+            messageElement.innerText = "Paddle goes faster!";
+            messageElement.classList.remove("hidden");
+            setTimeout(() => {
+                messageElement.classList.add("hidden");
+            }, 2000);
+        }
         paddle.setSpeed(14);
         setTimeout(() => {
             paddle.setSpeed(7);
@@ -349,6 +365,14 @@ class YellowPowerUp extends HTMLElement {
     applyEffect() {
         console.log("Ball goes fast!");
         const ball = document.getElementsByTagName("ball-component")[0];
+        const messageElement = document.getElementById("power-up-message");
+        if (messageElement) {
+            messageElement.innerText = "Ball goes faster!";
+            messageElement.classList.remove("hidden");
+            setTimeout(() => {
+                messageElement.classList.add("hidden");
+            }, 2000);
+        }
         ball.setSpeed(8);
         setTimeout(() => {
             ball.setSpeed(3);
