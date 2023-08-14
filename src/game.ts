@@ -4,10 +4,12 @@ class Game {
     private ball: Ball;
     private bricks: Brick[] = [];
     private powerUps: PowerUp[] = [];
+    private score: Score;
   
     constructor() {
       this.paddle = new Paddle();
       this.ball = new Ball(this.paddle);
+      this.score = new Score();
       this.generateBricks(); // Call the method to generate bricks
   
       this.gameLoop();

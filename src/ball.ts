@@ -135,6 +135,12 @@ class Ball extends HTMLElement {
             this.dy = 0;
             this.moveOnKeyUp = false;
             paddle.x = window.innerWidth / 2 - this.clientWidth / 2
+
+            // Reset the score to 0
+    const scoreElement = document.querySelector("score-component");
+    if (scoreElement instanceof Score) {
+        scoreElement.resetScore();
+    }
         }
 
         this.draw();

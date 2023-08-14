@@ -86,6 +86,12 @@ interface BrickBehavior {
   
     onHit() {
       this.behavior.onHit(this);
+      
+      // Increase the score by 1
+      const scoreElement = document.querySelector("score-component");
+      if (scoreElement instanceof Score) {
+          scoreElement.increaseScore(1);
+      }
     }
   
     disappear() {

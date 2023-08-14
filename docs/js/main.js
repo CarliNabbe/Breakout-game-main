@@ -84,6 +84,10 @@ class Ball extends HTMLElement {
             this.dy = 0;
             this.moveOnKeyUp = false;
             paddle.x = window.innerWidth / 2 - this.clientWidth / 2;
+            const scoreElement = document.querySelector("score-component");
+            if (scoreElement instanceof Score) {
+                scoreElement.resetScore();
+            }
         }
         this.draw();
     }
@@ -158,6 +162,10 @@ class Brick extends HTMLElement {
     }
     onHit() {
         this.behavior.onHit(this);
+        const scoreElement = document.querySelector("score-component");
+        if (scoreElement instanceof Score) {
+            scoreElement.increaseScore(1);
+        }
     }
     disappear() {
         this.remove();
@@ -173,6 +181,7 @@ class Game {
         this.powerUps = [];
         this.paddle = new Paddle();
         this.ball = new Ball(this.paddle);
+        this.score = new Score();
         this.generateBricks();
         this.gameLoop();
     }
@@ -381,4 +390,31 @@ class YellowPowerUp extends HTMLElement {
     }
 }
 window.customElements.define("double-upgrade", YellowPowerUp);
+class Score extends HTMLElement {
+    constructor() {
+        super();
+        this.score = 0;
+        this.scoreElement = document.createElement("div");
+        this.scoreElement.className = "score";
+        this.updateScoreDisplay();
+        this.appendChild(this.scoreElement);
+        let game = document.getElementsByTagName("game")[0];
+        game.appendChild(this);
+    }
+    increaseScore(points) {
+        this.score += points;
+        this.updateScoreDisplay();
+    }
+    getScore() {
+        return this.score;
+    }
+    resetScore() {
+        this.score = 0;
+        this.updateScoreDisplay();
+    }
+    updateScoreDisplay() {
+        this.scoreElement.innerText = `Score: ${this.score}`;
+    }
+}
+window.customElements.define("score-component", Score);
 //# sourceMappingURL=main.js.map
