@@ -223,6 +223,7 @@ class Paddle extends HTMLElement {
         this.moveLeft = false;
         this.moveRight = false;
         this.speed = 7;
+        this.canMove = false;
         console.log("Paddle created!");
         let game = document.getElementsByTagName("game")[0];
         game.appendChild(this);
@@ -235,16 +236,26 @@ class Paddle extends HTMLElement {
         this.speed = speed;
     }
     onKeyDown(e) {
-        if (e.key == "ArrowLeft")
-            this.moveLeft = true;
-        else if (e.key == "ArrowRight")
-            this.moveRight = true;
+        if (e.key == "ArrowUp") {
+            this.canMove = true;
+        }
+        if (this.canMove) {
+            if (e.key == "ArrowLeft")
+                this.moveLeft = true;
+            else if (e.key == "ArrowRight")
+                this.moveRight = true;
+        }
     }
     onKeyUp(e) {
-        if (e.key == "ArrowLeft")
-            this.moveLeft = false;
-        else if (e.key == "ArrowRight")
-            this.moveRight = false;
+        if (e.key == "ArrowUp") {
+            this.canMove = true;
+        }
+        if (this.canMove) {
+            if (e.key == "ArrowLeft")
+                this.moveLeft = false;
+            else if (e.key == "ArrowRight")
+                this.moveRight = false;
+        }
     }
     update() {
         let newX = 0;

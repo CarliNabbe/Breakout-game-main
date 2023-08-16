@@ -11,6 +11,7 @@ class Paddle extends HTMLElement {
     private moveRight   : boolean   = false
     
     private speed       : number    = 7
+    private canMove: boolean = false;
 
     constructor() {
         super()
@@ -33,13 +34,25 @@ class Paddle extends HTMLElement {
     }
 
     private onKeyDown(e: KeyboardEvent): void {
-        if(e.key == "ArrowLeft")        this.moveLeft   = true
-        else if (e.key == "ArrowRight") this.moveRight  = true
+        if (e.key == "ArrowUp") {
+            this.canMove = true;
+        }
+
+        if (this.canMove) {
+            if (e.key == "ArrowLeft") this.moveLeft = true;
+            else if (e.key == "ArrowRight") this.moveRight = true;
+        }
     }
 
     private onKeyUp(e: KeyboardEvent): void {
-        if(e.key == "ArrowLeft")        this.moveLeft   = false
-        else if (e.key == "ArrowRight") this.moveRight  = false
+        if (e.key == "ArrowUp") {
+            this.canMove = true;
+        }
+
+        if (this.canMove) {
+            if (e.key == "ArrowLeft") this.moveLeft = false;
+            else if (e.key == "ArrowRight") this.moveRight = false;
+        }
     }
 
     public update() {

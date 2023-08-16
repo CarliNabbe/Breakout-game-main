@@ -181,10 +181,10 @@ class YellowPowerUp extends HTMLElement implements PowerUp {
         const ball = document.getElementsByTagName("ball-component")[0] as Ball;
         
           // Display the power-up message
-    const messageElement = document.getElementById("power-up-message");
-    if (messageElement) {
-      messageElement.innerText = "Ball goes faster!";
-      messageElement.classList.remove("hidden");
+          const messageElement = document.getElementById("power-up-message");
+          if (messageElement) {
+            messageElement.innerText = "Ball goes faster!";
+            messageElement.classList.remove("hidden");
 
       // Hide the message after 2 seconds
       setTimeout(() => {

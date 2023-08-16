@@ -137,10 +137,10 @@ class Ball extends HTMLElement {
             paddle.x = window.innerWidth / 2 - this.clientWidth / 2
 
             // Reset the score to 0
-    const scoreElement = document.querySelector("score-component");
-    if (scoreElement instanceof Score) {
-        scoreElement.resetScore();
-    }
+            const scoreElement = document.querySelector("score-component");
+            if (scoreElement instanceof Score) {
+                scoreElement.resetScore();
+            }
         }
 
         this.draw();
@@ -151,5 +151,4 @@ class Ball extends HTMLElement {
     }
 }
 
-// This object is style in style.css under the paddle-component tag
 window.customElements.define("ball-component", Ball as any)
