@@ -23,7 +23,7 @@ class Game {
   
       for (let row = 0; row < rows; row++) {
         for (let column = 0; column < columns; column++) {
-          // Create a new instance of either Brick or YellowBrick based on random condition
+          // Creeer nieuw purple of yellow brick
           const brick = Math.random() < 0.3 ? new Brick("yellow", this) : new Brick("purple", this);
   
           // plaats het grid met blokken in het midden van het scherm

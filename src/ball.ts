@@ -25,7 +25,7 @@ class Ball extends HTMLElement {
         window.addEventListener("keyup", (e: KeyboardEvent) => this.onKeyUp(e))
     }
 
-    // Add a method to set the speed of the paddle
+    // Set the speed of the paddle
     setSpeed(speed: number): void {
         this.speed = speed;
     }

@@ -272,11 +272,11 @@ class Paddle extends HTMLElement {
     }
 }
 window.customElements.define("paddle-component", Paddle);
-class RedPowerUp extends HTMLElement {
+class BasePowerUp extends HTMLElement {
     constructor() {
         super();
         this.speed = 2;
-        console.log("RedPowerUp created!");
+        console.log(`${this.constructor.name} created!`);
         let game = document.getElementsByTagName("game")[0];
         game.appendChild(this);
     }
@@ -296,6 +296,8 @@ class RedPowerUp extends HTMLElement {
             this.remove();
         }
     }
+}
+class RedPowerUp extends BasePowerUp {
     applyEffect() {
         console.log("Stop moving!");
         const paddle = document.getElementsByTagName("paddle-component")[0];
@@ -314,31 +316,7 @@ class RedPowerUp extends HTMLElement {
         this.remove();
     }
 }
-window.customElements.define("hold-upgrade", RedPowerUp);
-class BluePowerUp extends HTMLElement {
-    constructor() {
-        super();
-        this.speed = 2;
-        console.log("BluePowerUp created!");
-        let game = document.getElementsByTagName("game")[0];
-        game.appendChild(this);
-    }
-    update() {
-        this.style.top = parseInt(this.style.top) + this.speed + "px";
-        const paddle = document.getElementsByTagName("paddle-component")[0];
-        const powerUpRect = this.getBoundingClientRect();
-        const paddleRect = paddle.getBoundingClientRect();
-        if (powerUpRect.bottom >= paddleRect.top &&
-            powerUpRect.top <= paddleRect.bottom &&
-            powerUpRect.right >= paddleRect.left &&
-            powerUpRect.left <= paddleRect.right) {
-            this.applyEffect();
-            this.remove();
-        }
-        if (parseInt(this.style.top) >= window.innerHeight) {
-            this.remove();
-        }
-    }
+class BluePowerUp extends BasePowerUp {
     applyEffect() {
         console.log("Faster Paddle!");
         const paddle = document.getElementsByTagName("paddle-component")[0];
@@ -357,31 +335,7 @@ class BluePowerUp extends HTMLElement {
         this.remove();
     }
 }
-window.customElements.define("faster-upgrade", BluePowerUp);
-class YellowPowerUp extends HTMLElement {
-    constructor() {
-        super();
-        this.speed = 2;
-        console.log("YellowPowerUp created!");
-        let game = document.getElementsByTagName("game")[0];
-        game.appendChild(this);
-    }
-    update() {
-        this.style.top = parseInt(this.style.top) + this.speed + "px";
-        const paddle = document.getElementsByTagName("paddle-component")[0];
-        const powerUpRect = this.getBoundingClientRect();
-        const paddleRect = paddle.getBoundingClientRect();
-        if (powerUpRect.bottom >= paddleRect.top &&
-            powerUpRect.top <= paddleRect.bottom &&
-            powerUpRect.right >= paddleRect.left &&
-            powerUpRect.left <= paddleRect.right) {
-            this.applyEffect();
-            this.remove();
-        }
-        if (parseInt(this.style.top) >= window.innerHeight) {
-            this.remove();
-        }
-    }
+class YellowPowerUp extends BasePowerUp {
     applyEffect() {
         console.log("Ball goes fast!");
         const ball = document.getElementsByTagName("ball-component")[0];
@@ -400,6 +354,8 @@ class YellowPowerUp extends HTMLElement {
         this.remove();
     }
 }
+window.customElements.define("hold-upgrade", RedPowerUp);
+window.customElements.define("faster-upgrade", BluePowerUp);
 window.customElements.define("double-upgrade", YellowPowerUp);
 class Score extends HTMLElement {
     constructor() {
